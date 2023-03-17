@@ -18,7 +18,7 @@ env:
   TF_CONFIGURATIONS: 'network'
   TF_ROOT_PATH: ${{ github.workspace }}/terraform/management
   #ENVIRONMENT: ${{ fromJSON('["dev", "prd"]')[github.ref == 'refs/heads/main'] }}
-  ENVIRONMENT: mgmt
+  ENVIRONMENT: mgnt
 
 jobs:
   prepare:
