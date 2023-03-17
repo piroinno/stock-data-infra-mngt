@@ -13,11 +13,12 @@ env:
   ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
   ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
   ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
-  TF_ROOT_PATH: ${{ github.workspace }}/terraform
+  TF_PLAN_FILE: terraform.tfplan
+  TF_LANDING_ZONE: 'management'
+  TF_CONFIGURATIONS: 'network'
+  TF_ROOT_PATH: ${{ github.workspace }}/terraform/${{ env.TF_LANDING_ZONE }}
   #ENVIRONMENT: ${{ fromJSON('["dev", "prd"]')[github.ref == 'refs/heads/main'] }}
   ENVIRONMENT: mgmt
-  TF_PLAN_FILE: terraform.tfplan
-  TF_CONFIGURATIONS: 'management'
 
 jobs:
   prepare:
@@ -46,9 +47,9 @@ jobs:
           landingzonenamerootpath: ${{ env.TF_ROOT_PATH }}
           configurationfolder: ${{ matrix.configuration }}
           environment: ${{env.ENVIRONMENT }}
-          terraformphase: plan
+          terraformphase: "plan"
           automatedrun: "true"
-          terraformconfigplanfilepath: ${{ github.workspace }}/terraform
+          terraformconfigplanfilepath: ${{ env.RUNNER_TEMP }}/terraform
           terraformconfigplanfile: ${{ env.TF_PLAN_FILE }}
           terraformworkingpath: ${{ env.RUNNER_TEMP }}
 
@@ -61,11 +62,11 @@ jobs:
       - name: Deploy Terraform  (Apply)
         uses: piroinno/stock-data-infra-tf-automation/build@init
         with:
-          landingzonenamerootpath: ${{ github.workspace }}
+          landingzonenamerootpath: ${{ env.TF_ROOT_PATH }}
           configurationfolder: ${{ matrix.configuration }}
-          environment: ${{ env.ENVIRONMENT }}
-          terraformphase: apply
+          environment: ${{env.ENVIRONMENT }}
+          terraformphase: "apply"
           automatedrun: "true"
-          terraformconfigplanfilepath: ${{ github.workspace }}/terraform
+          terraformconfigplanfilepath: ${{ env.RUNNER_TEMP }}/terraform
           terraformconfigplanfile: ${{ env.TF_PLAN_FILE }}
           terraformworkingpath: ${{ env.RUNNER_TEMP }}
