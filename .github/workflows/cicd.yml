@@ -67,6 +67,7 @@ jobs:
           configurationfolder: ${{ matrix.configuration }}
           terraformconfigplanfilepath: ${{ env.TF_AUTO_WORKING_PATH }}
           terraformconfigplanfile: ${{ env.TF_PLAN_FILE }}
+          terraformworkingpath: ${{ env.TF_AUTO_WORKING_PATH }}
           reportfilepath: ${{ env.TF_AUTO_WORKING_PATH }}
           enrichmenttfpath: ${{ env.TF_AUTO_WORKING_PATH }}
           enrichmentvarpath: ${{ env.TF_AUTO_WORKING_PATH }}
