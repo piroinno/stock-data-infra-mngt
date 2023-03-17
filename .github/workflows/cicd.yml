@@ -63,7 +63,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Deploy Terraform  (Apply)
-        uses: piroinno/stock-data-infra-tf-automation/build@init
+        uses: piroinno/stock-data-infra-tf-automation/deploy@init
         with:
           landingzonenamerootpath: ${{ env.TF_ROOT_PATH }}
           configurationfolder: ${{ matrix.configuration }}
