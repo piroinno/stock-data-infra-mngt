@@ -16,7 +16,7 @@ env:
   TF_ROOT_PATH: ${{ github.workspace }}/terraform
   ENVIRONMENT: fromJSON('["prd", "dev"]')[github.ref == 'refs/heads/main']
   TF_PLAN_FILE: terraform.tfplan
-  TF_CONFIGURATIONS: '["management"]'
+  TF_CONFIGURATIONS: 'management'
 jobs:
   prepare:
     runs-on: ubuntu-latest
@@ -25,9 +25,8 @@ jobs:
     steps:
       - id: set-matrix
         run: |
-          tf_configs=`echo "$TF_CONFIGURATIONS" | sed 's|"|\\"|g'`
-          echo $tf_configs
-          echo "matrix={\"include\":$tf_configs}" >> $GITHUB_OUTPUT
+          tf_configsS=(sed 's|"|\\"|g' <<< "$TF_CONFIGURATIONS")
+          echo "matrix={\"include\":[\"$tf_configs\"]}" >> $GITHUB_OUTPUT
   build:
     runs-on: ubuntu-latest
     needs: prepare
