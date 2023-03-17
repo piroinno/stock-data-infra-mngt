@@ -14,10 +14,7 @@ env:
   ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
   ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
   TF_ROOT_PATH: ${{ github.workspace }}/terraform
-  ${{ if github.ref == 'refs/heads/main' }}:
-    ENVIRONMENT: prd
-  ${{ else }}:
-    ENVIRONMENT: dev
+  ENVIRONMENT: fromJSON('["prd", "dev"]')[github.ref == 'refs/heads/main']
   TF_PLAN_FILE: terraform.tfplan
   TF_CONFIGURATIONS: '["management"]'
 jobs:
