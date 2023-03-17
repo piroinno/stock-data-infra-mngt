@@ -50,9 +50,9 @@ jobs:
           environment: ${{env.ENVIRONMENT }}
           terraformphase: "plan"
           automatedrun: "true"
-          terraformconfigplanfilepath: ${{ runner.temp }}/terraform
+          terraformconfigplanfilepath: ${{ github.workspace }}/terraform
           terraformconfigplanfile: ${{ env.TF_PLAN_FILE }}
-          terraformworkingpath: ${{ runner.temp }}
+          terraformworkingpath: ${{ github.workspace }}
 
   deploy:
     runs-on: ubuntu-latest
@@ -68,6 +68,6 @@ jobs:
           environment: ${{env.ENVIRONMENT }}
           terraformphase: "apply"
           automatedrun: "true"
-          terraformconfigplanfilepath: ${{ runner.temp }}/terraform
+          terraformconfigplanfilepath: ${{ github.workspace }}/terraform
           terraformconfigplanfile: ${{ env.TF_PLAN_FILE }}
-          terraformworkingpath: ${{ runner.temp }}
+          terraformworkingpath: ${{ github.workspace }}
