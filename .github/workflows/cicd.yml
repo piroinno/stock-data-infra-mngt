@@ -45,7 +45,7 @@ jobs:
           configurationfolder: ${{ matrix.configuration }}
           environment: ${{env.ENVIRONMENT }}
           terraformphase: plan
-          automatedrun: true
+          automatedrun: "true"
           terraformconfigplanfilepath: ${{ github.workspace }}/terraform
           terraformconfigplanfile: ${{ env.TF_PLAN_FILE }}
           terraformworkingpath: ${{ env.RUNNER_TEMP }}
@@ -63,7 +63,7 @@ jobs:
           configurationfolder: ${{ matrix.configuration }}
           environment: ${{ env.ENVIRONMENT }}
           terraformphase: apply
-          automatedrun: true
+          automatedrun: "true"
           terraformconfigplanfilepath: ${{ github.workspace }}/terraform
           terraformconfigplanfile: ${{ env.TF_PLAN_FILE }}
           terraformworkingpath: ${{ env.RUNNER_TEMP }}
