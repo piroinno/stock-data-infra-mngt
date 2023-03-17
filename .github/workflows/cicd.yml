@@ -41,6 +41,7 @@ jobs:
     strategy:
       matrix: ${{ fromJSON(needs.prepare.outputs.matrix) }}
     steps:
+      - uses: actions/checkout@v3
       - name: Build Terraform Configuration (Plan)
         uses: piroinno/stock-data-infra-tf-automation/build/@init
         with:
@@ -49,9 +50,9 @@ jobs:
           environment: ${{env.ENVIRONMENT }}
           terraformphase: "plan"
           automatedrun: "true"
-          terraformconfigplanfilepath: ${{ env.RUNNER_TEMP }}/terraform
+          terraformconfigplanfilepath: ${{ github.RUNNER_TEMP }}/terraform
           terraformconfigplanfile: ${{ env.TF_PLAN_FILE }}
-          terraformworkingpath: ${{ env.RUNNER_TEMP }}
+          terraformworkingpath: ${{ github.RUNNER_TEMP }}
 
   deploy:
     runs-on: ubuntu-latest
