@@ -29,7 +29,7 @@ jobs:
           $matrix = @()
           $configurations = "$($env:TF_CONFIGURATIONS)" -split ','
           foreach($configuration in $configurations){
-            $matrix += "`"{`"configuration`":`"$configuration`"}"
+            $matrix += "{`"configuration`":`"$configuration`"}"
           }
           echo $matrix -join ','
           echo ::set-output name=matrix::"[$($matrix -join ',')]"
