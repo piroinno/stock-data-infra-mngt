@@ -25,7 +25,7 @@ jobs:
     steps:
       - id: set-matrix
         run: |
-          tf_configs=($TF_CONFIGURATIONS | sed 's|"|\\"|g')
+          tf_configs=(ehco $TF_CONFIGURATIONS | sed 's|"|\\"|g')
           echo $tf_configs
           echo "matrix={\"include\":$tf_configs}" >> $GITHUB_OUTPUT
   build:
