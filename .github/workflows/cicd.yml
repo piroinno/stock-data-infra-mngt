@@ -21,8 +21,8 @@ env:
   TF_LANDING_ZONE_ROOT_PATH: ${{ github.workspace }}/terraform/management
   TF_CONFIGURATIONS: 'network'
   TF_AUTO_ROOT_PATH: ${{ github.workspace }}/terraform
-  TF_AUTO_WORKING_FOLDER: "_automation"
-  TF_AUTO_WORKING_PATH: ${{ github.workspace }}/terraform/_automation
+  TF_AUTO_WORKING_FOLDER: "./"
+  TF_AUTO_WORKING_PATH: ${{ github.workspace }}/terraform
   #ENVIRONMENT: ${{ fromJSON('["dev", "prd"]')[github.ref == 'refs/heads/main'] }}
   ENVIRONMENT: mgnt
 
