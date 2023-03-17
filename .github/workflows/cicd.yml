@@ -48,7 +48,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Build Terraform Configuration (Plan)
-        uses: piroinno/stock-data-infra-tf-automation/test/@init
+        uses: piroinno/stock-data-infra-tf-automation/build/@init
         with:
           configurationfolder: ${{ matrix.configuration }}
           terraformphase: "plan"
@@ -62,7 +62,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Build Terraform Configuration (Plan)
-        uses: piroinno/stock-data-infra-tf-automation/build/@init
+        uses: piroinno/stock-data-infra-tf-automation/test/@init
         with:
           configurationfolder: ${{ matrix.configuration }}
           terraformconfigplanfilepath: ${{ env.TF_AUTO_WORKING_PATH }}
