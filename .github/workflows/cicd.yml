@@ -9,10 +9,6 @@ on:
       - dev
       - main
 env:
-  ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
-  ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
-  ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
-  ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
   TF_ROOT_PATH: ${{ github.workspace }}/terraform
   ENVIRONMENT: ${{ fromJSON('["dev", "prd"]')[github.ref == 'refs/heads/main'] }}
   TF_PLAN_FILE: terraform.tfplan
@@ -49,6 +45,11 @@ jobs:
           terraformconfigplanfilepath: ${{ github.workspace }}/terraform
           terraformconfigplanfile: ${{ env.TF_PLAN_FILE }}
           terraformworkingpath: ${{ env.RUNNER_TEMP }}
+        env:
+          ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+          ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+          ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+          ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
 
   deploy:
     runs-on: ubuntu-latest
@@ -67,3 +68,8 @@ jobs:
           terraformconfigplanfilepath: ${{ github.workspace }}/terraform
           terraformconfigplanfile: ${{ env.TF_PLAN_FILE }}
           terraformworkingpath: ${{ env.RUNNER_TEMP }}
+        env:
+          ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+          ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+          ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+          ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
