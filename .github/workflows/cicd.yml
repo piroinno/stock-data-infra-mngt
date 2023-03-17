@@ -38,7 +38,6 @@ jobs:
     strategy:
       matrix: ${{ fromJSON(needs.prepare.outputs.matrix) }}
     steps:
-      - uses: actions/checkout@v3
       - name: Build Terraform Configuration (Plan)
         uses: piroinno/stock-data-infra-tf-automation/build@init
         with:
@@ -57,7 +56,6 @@ jobs:
     strategy:
       matrix: ${{ fromJSON(needs.prepare.outputs.matrix) }}
     steps:
-      - uses: actions/checkout@v3
       - name: Deploy Terraform  (Apply)
         uses: piroinno/stock-data-infra-tf-automation/build@init
         with:
