@@ -39,7 +39,7 @@ jobs:
       matrix: ${{ fromJSON(needs.prepare.outputs.matrix) }}
     steps:
       - name: Build Terraform Configuration (Plan)
-        uses: piroinno/stock-data-infra-tf-automation/build@init
+        uses: piroinno/stock-data-infra-tf-automation/build/@init
         with:
           landingzonenamerootpath: ${{ env.TF_ROOT_PATH }}
           configurationfolder: ${{ matrix.configuration }}
