@@ -38,11 +38,12 @@ jobs:
     strategy:
       matrix: ${{ fromJSON(needs.prepare.outputs.matrix) }}
     steps:
+      - uses: actions/checkout@v3
       - name: Build Terraform Configuration (Plan)
         uses: piroinno/stock-data-infra-tf-automation/build@init
         with:
           landingzonenamerootpath: ${{ env.TF_ROOT_PATH }}
-          configurationfolder: ${{ github.action_path }}/configuration
+          configurationfolder: ${{ matrix.configuration }}
           environment: ${{env.ENVIRONMENT }}
           terraformphase: plan
           automatedrun: true
@@ -52,15 +53,19 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
-    needs: build
+    needs: [build, prepare]
+    strategy:
+      matrix: ${{ fromJSON(needs.prepare.outputs.matrix) }}
     steps:
+      - uses: actions/checkout@v3
       - name: Deploy Terraform  (Apply)
         uses: piroinno/stock-data-infra-tf-automation/build@init
         with:
           landingzonenamerootpath: ${{ github.workspace }}
-          configurationfolder: ${{ github.action_path }}/configuration
-          environment: ${{ github.event_name }}
+          configurationfolder: ${{ matrix.configuration }}
+          environment: ${{ env.ENVIRONMENT }}
           terraformphase: apply
           automatedrun: true
           terraformconfigplanfilepath: ${{ github.workspace }}/terraform
-          terraformconfigplanfile: terraform.tfplan
+          terraformconfigplanfile: ${{ env.TF_PLAN_FILE }}
+          terraformworkingpath: ${{ env.RUNNER_TEMP }}
