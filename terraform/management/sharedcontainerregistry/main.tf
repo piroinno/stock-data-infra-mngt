@@ -9,4 +9,8 @@ module "caf" {
   compute = {
     container_registry = var.azure_container_registries
   }
+
+  providers = {
+    azurerm.vhub = azurerm
+  }
 }
