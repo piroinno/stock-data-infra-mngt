@@ -4,10 +4,9 @@ module "caf" {
 
   global_settings = var.global_settings
   resource_groups = var.resource_groups
-  keyvaults       = var.keyvaults
 
   compute = {
-    container_registry = var.azure_container_registries
+    azure_container_registries = var.azure_container_registries
   }
 
   providers = {
