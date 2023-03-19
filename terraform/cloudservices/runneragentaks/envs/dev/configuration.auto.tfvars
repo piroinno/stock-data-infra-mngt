@@ -6,14 +6,14 @@ global_settings = {
 }
 
 remote_networks = {
-  management = {
-    name          = "hub-mgnt"
+  cloudservices = {
+    name          = "cs_stock_data_dev"
     configuration = "network"
   }
 }
 
 remote_sharedcontainerregistries = {
-  management = {
+  cloudservices = {
     name          = "shared_acr_stock_data_mgnt"
     configuration = "sharedcontainerregistry"
   }
