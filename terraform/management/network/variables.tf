@@ -1,3 +1,9 @@
+variable "public_ip_addresses" {
+  default = {}
+}
+variable "azurerm_firewalls" {
+  default = {}
+}
 variable "virtual_machines" {
   default = {}
 }

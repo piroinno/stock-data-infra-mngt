@@ -14,6 +14,8 @@ module "caf" {
     network_security_group_definition = var.network_security_group_definition
     vnets                             = var.vnets
     vnet_peerings                     = var.vnet_peerings
+    public_ip_addresses               = var.public_ip_addresses
+    azurerm_firewalls                 = var.azurerm_firewalls
   }
   providers = {
     azurerm.vhub = azurerm
