@@ -18,12 +18,11 @@ env:
   ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
   ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
   ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
-  TF_PLAN_FILE: tfplan
-  TF_LANDING_ZONE: 'management'
-  TF_LANDING_ZONE_ROOT_PATH: ${{ github.workspace }}/terraform/management
-  TF_CONFIGURATIONS: 'network,sharedcontainerregistry'
-  TF_AUTO_WORKING_FOLDER: "./"
-  TF_AUTO_WORKING_PATH: ${{ github.workspace }}/terraform
+  APP_LANDING_ZONE: 'management'
+  APP_LANDING_ZONE_ROOT_PATH: ${{ github.workspace }}/application/management
+  APP_NAMES: 'runneragent'
+  APP_AUTO_WORKING_FOLDER: "./"
+  APP_AUTO_WORKING_PATH: ${{ github.workspace }}/application
   #ENVIRONMENT: ${{ fromJSON('["dev", "prd"]')[github.ref == 'refs/heads/main'] }}
   ENVIRONMENT: mgnt
 
@@ -37,9 +36,9 @@ jobs:
         shell: pwsh
         run: |
           $matrix = @()
-          $configurations = "$($env:TF_CONFIGURATIONS)" -split ','
-          foreach($configuration in $configurations){
-            $matrix += "{`"configuration`":`"$configuration`"}"
+          $apps = "$($env:APP_NAMES)" -split ','
+          foreach($app in $apps){
+            $matrix += "{`"app`":`"$app`"}"
           }
           Write-Host("::set-output name=matrix::{`"include`":[$($matrix -join ',')]}")
           
@@ -51,27 +50,19 @@ jobs:
       matrix: ${{ fromJSON(needs.prepare.outputs.matrix) }}
     steps:
       - uses: actions/checkout@v3
-      - name: Build Terraform Configuration (Plan)
-        uses: piroinno/stock-data-infra-tf-automation/build/@init
+      - name: Build docker image
+        uses: piroinno/stock-data-infra-app-automation/build/docker/@init
         with:
-          configurationfolder: ${{ matrix.configuration }}
-          terraformconfigplanfile: ${{ env.TF_PLAN_FILE }}_${{ matrix.configuration }}
-          terraformphase: "plan"
-          automatedrun: "true"
-
-  test:
-    runs-on: ubuntu-latest
-    needs: [prepare, build]
-    strategy:
-      matrix: ${{ fromJSON(needs.prepare.outputs.matrix) }}
-    steps:
-      - uses: actions/checkout@v3
-      - name: Test Terraform Configuration (Plan)
-        uses: piroinno/stock-data-infra-tf-automation/test/@init
-        with:
-          configurationfolder: ${{ matrix.configuration }}
-          terraformconfigplanfile: ${{ env.TF_PLAN_FILE }}_${{ matrix.configuration }}
-          baselinefile: ".checkov.baseline"
+          appfolder: ${{ matrix.app }}
+          registryname: ${{ inputs.REGISTRY_NAME }}
+          buildimagename: ${{ matrix.app }}
+          tags: ${{ env.ENVIRONMENT }},latest
+          pushimage: "true"
+          dockerfile: "Dockerfile"
+          dockerfileargs: "RUNNER_VERSION=2.303.0,RUNNER_TOKEN=${{ secrets.RUNNER_TOKEN }},ORGANISATION=${{ github.repository_owner }},REPOSITORY=${{ github.repository }}"
+          acrloginserver: ${{ secrets.ACR_LOGIN_SERVER }}
+          acrusename: ${{ secrets.ACR_USR_NAME }}
+          acrpassword: ${{ secrets.ACR_PWD }}
 
   deploy:
     #if: ${{ github.ref == 'refs/heads/main' || github.ref == 'refs/heads/uat' || github.ref == 'refs/heads/dev' }}

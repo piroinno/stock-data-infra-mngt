@@ -33,8 +33,15 @@ vnets = {
         cidr                                           = ["100.63.103.128/25"]
         enforce_private_link_endpoint_network_policies = true
       }
+      aks_mgnt_nodepool_system = {
+        name = "aks-mgnt-nodepool-system"
+        cidr = ["100.63.104.0/26"]
+      }
+      aks_mgnt_nodepool_user = {
+        name = "aks-mgnt-nodepool-user"
+        cidr = ["100.63.104.64/26"]
+      }
     }
-
   }
 
   hub_stock_data_dev = {
