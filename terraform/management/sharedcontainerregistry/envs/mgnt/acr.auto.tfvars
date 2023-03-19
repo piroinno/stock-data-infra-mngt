@@ -10,20 +10,22 @@ azure_container_registries = {
     #     destination_type = "log_analytics"
     #     destination_key  = "central_logs"
     #   }
-  }
+    # }
 
-  private_endpoints = {
-    shared_acr_stock_data_mgnt_private_endpoint = {
-      name               = "shared-acr-stock-data-mgnt-pe"
-      resource_group_key = "acr_mgnt"
+    private_endpoints = {
+      shared_acr_stock_data_mgnt_private_endpoint = {
+        name               = "shared-acr-stock-data-mgnt-pe"
+        resource_group_key = "acr_mgnt"
 
-      vnet_key   = "hub_mgnt"
-      subnet_key = "private_endpoints"
-
-      private_service_connection = {
-        name                 = "shared-acr-stock-data-mgnt-psc"
-        is_manual_connection = false
-        subresource_names    = ["registry"]
+        vnet_key   = "hub_mgnt"
+        subnet_key = "private_endpoints"
+        lz_key     = "management"
+        
+        private_service_connection = {
+          name                 = "shared-acr-stock-data-mgnt-psc"
+          is_manual_connection = false
+          subresource_names    = ["registry"]
+        }
       }
     }
   }

@@ -9,6 +9,10 @@ module "caf" {
     azure_container_registries = var.azure_container_registries
   }
 
+  remote_objects = {
+    vnets = local.remote_vnets
+  }
+
   providers = {
     azurerm.vhub = azurerm
   }

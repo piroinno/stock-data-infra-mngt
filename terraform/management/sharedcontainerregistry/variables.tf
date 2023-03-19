@@ -1,6 +1,9 @@
 variable "azure_container_registries" {
   default = {}
 }
+variable "remote_networks" {
+  default = {}
+}
 variable "resource_groups" {
   default = {}
 }
@@ -19,4 +22,8 @@ variable "tenant_id" {
 variable "environment" {
   type    = string
   default = null
+}
+
+variable "remote_states" {
+  default = {}
 }

@@ -10,17 +10,15 @@ resource_groups = {
     name   = "acr-mgnt"
     region = "primary"
   }
+  vnet_hub_mgnt = {
+    name   = "vnet-hub-mgnt"
+    region = "primary"
+  }
 }
 
-networking = {
-  vnets = {
-    hub_mgnt = {
-      name = "hub-mgnt"
-      subnets = {
-        private_endpoints = {
-          name = "private_endpoints"
-        }
-      }
-    }
+remote_networks = {
+  management = {
+    vnet          = "hub-mgnt"
+    configuration = "network"
   }
 }
