@@ -21,7 +21,7 @@ env:
   TF_PLAN_FILE: tfplan
   TF_LANDING_ZONE: 'management'
   TF_LANDING_ZONE_ROOT_PATH: ${{ github.workspace }}/terraform/management
-  TF_CONFIGURATIONS: 'network,sharedcontainerregistry,runneragent'
+  TF_CONFIGURATIONS: ''
   TF_AUTO_WORKING_FOLDER: "./"
   TF_AUTO_WORKING_PATH: ${{ github.workspace }}/terraform
   #ENVIRONMENT: ${{ fromJSON('["dev", "prd"]')[github.ref == 'refs/heads/main'] }}
