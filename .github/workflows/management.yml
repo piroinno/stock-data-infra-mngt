@@ -53,6 +53,7 @@ jobs:
         uses: piroinno/stock-data-infra-tf-automation/build/@init
         with:
           configurationfolder: ${{ matrix.configuration }}
+          terraformconfigplanfile: ${{ env.TF_PLAN_FILE }}_${{ matrix.configuration }}
           terraformphase: "plan"
           automatedrun: "true"
 
@@ -67,6 +68,7 @@ jobs:
         uses: piroinno/stock-data-infra-tf-automation/test/@init
         with:
           configurationfolder: ${{ matrix.configuration }}
+          terraformconfigplanfile: ${{ env.TF_PLAN_FILE }}_${{ matrix.configuration }}
           baselinefile: ".checkov.baseline"
 
   deploy:
@@ -81,5 +83,6 @@ jobs:
         uses: piroinno/stock-data-infra-tf-automation/deploy@init
         with:
           configurationfolder: ${{ matrix.configuration }}
+          terraformconfigplanfile: ${{ env.TF_PLAN_FILE }}_${{ matrix.configuration }}
           terraformphase: "apply"
           automatedrun: "true"
