@@ -51,7 +51,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Build docker image
-        uses: piroinno/stock-data-infra-app-automation/build/docker/@init
+        uses: piroinno/stock-data-app-automation/build/docker/@init
         with:
           appfolder: ${{ matrix.app }}
           registryname: ${{ inputs.REGISTRY_NAME }}
