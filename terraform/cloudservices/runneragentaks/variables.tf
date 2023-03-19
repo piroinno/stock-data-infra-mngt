@@ -1,4 +1,13 @@
-variable "azure_container_registries" {
+variable "azuread_groups" {
+  default = {}
+}
+variable "role_mapping" {
+  default = {}
+}
+variable "aks_clusters" {
+  default = {}
+}
+variable "remote_sharedcontainerregistries" {
   default = {}
 }
 variable "remote_networks" {
@@ -17,13 +26,4 @@ variable "subscription_id" {
 variable "tenant_id" {
   type    = string
   default = null
-}
-
-variable "environment" {
-  type    = string
-  default = null
-}
-
-variable "remote_states" {
-  default = {}
 }

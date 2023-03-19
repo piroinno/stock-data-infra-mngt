@@ -5,7 +5,7 @@ remote_states = {
         resource_group_name  = "mngt-iac-back-rg"
         storage_account_name = "mngtiacbacksa"
         container_name       = "iac"
-        key                  = "Networks/mgnt.tfstate"
+        key                  = "Networks/mngt.tfstate"
     }
   }
 }

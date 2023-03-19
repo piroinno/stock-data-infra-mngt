@@ -13,8 +13,12 @@ resource_groups = {
 }
 
 remote_networks = {
-  management = {
-    name          = "hub-mgnt"
+  cloudservices = {
+    name          = "cs_stock_data_dev"
     configuration = "network"
   }
 }
+
+subscription_id = "6016324a-afd1-4da5-b026-378af25f609b"
+tenant_id       = "859e9d09-9fe3-4451-9029-35d7fb1f2e59"
+environment     = "dev"

@@ -22,7 +22,6 @@ azurerm_firewalls = {
         public_ip_key = "mgnt_pip"
         vnet_key      = "hub_mgnt"
         subnet_key    = "AzureFirewallSubnet"
-        lz_key        = "management"
       }
     }
   }

@@ -2,30 +2,35 @@
     "iac": {
         "properties":{
             "tenant_id": "859e9d09-9fe3-4451-9029-35d7fb1f2e59",
-            "location": "westeurope"
+            "location": "westeurope",
+            "landing_zone": {
+                "name": "cloudservices",
+                "short_name": "cs",
+                "subscription_id": "6016324a-afd1-4da5-b026-378af25f609b"
+            }
         },
         "terraform_backend": {
             "storage_account": {
-                "name": "mngtiacbacksa",
+                "name": "csdeviacbacksa",
                 "sku_name": "Standard_LRS",
                 "kind": "StorageV2",
                 "access_tier": "Hot",
                 "enable_https_traffic_only": true,
                 "enable_hierarchical_namespace": false,
-                "resource_group_name": "mngt-iac-back-rg",
+                "resource_group_name": "cs-dev-iac-back-rg",
                 "container_name": "iac",
-                "subscription_id": "5ae65a7a-19c4-4bf6-b409-3f5e2e490cdb"
+                "subscription_id": "6016324a-afd1-4da5-b026-378af25f609b"
             },
             "service_principals": [
                 {
-                    "name": "mgnt-iac-back-spn",
-                    "home_page": "http://mgnt-iac-back-spn",
+                    "name": "cs-dev-iac-back-spn",
+                    "home_page": "http://cs-dev-iac-back-spn",
                     "identifier_uris": [
-                        "http://mgnt-iac-back-spn"
+                        "http://cs-dev-iac-back-spn"
                     ],
                     "available_to_other_tenants": false,
                     "key_vault": {
-                        "name": "mgnt-iac-backend-spn-kv",
+                        "name": "cs-dev-iac-back-spn-kv",
                         "sku": "standard",
                         "soft_delete_retention_in_days": 7,
                         "purge_protection_enabled": true,
@@ -34,9 +39,9 @@
                         "enabled_for_deployment": true,
                         "enabled_for_template_deployment": true,
                         "enable_purge_protection": true,
-                        "secret_name": "mgnt-iac-backend-spn",
-                        "resource_group_name": "mgnt-iac-back-spn-rg",
-                        "subscription_id": "5ae65a7a-19c4-4bf6-b409-3f5e2e490cdb"
+                        "secret_name": "cs-dev-iac-backend-spn",
+                        "resource_group_name": "cs-dev-iac-back-spn-rg",
+                        "subscription_id": "6016324a-afd1-4da5-b026-378af25f609b"
                     }
                 }
             ]

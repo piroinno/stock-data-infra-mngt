@@ -17,9 +17,9 @@ azure_container_registries = {
         name               = "shared-acr-stock-data-mgnt-pe"
         resource_group_key = "acr_mgnt"
 
-        vnet_key   = "hub_mgnt"
+        vnet_key   = "cs_stock_data_dev"
         subnet_key = "private_endpoints"
-        lz_key     = "management"
+        lz_key     = "cloudservices"
         
         private_service_connection = {
           name                 = "shared-acr-stock-data-mgnt-psc"
