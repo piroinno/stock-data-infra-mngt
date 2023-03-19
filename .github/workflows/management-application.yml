@@ -19,7 +19,7 @@ env:
   ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
   ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
   APP_LANDING_ZONE: 'management'
-  APP_LANDING_ZONE_ROOT_PATH: ${{ github.workspace }}/management/application
+  APP_LANDING_ZONE_ROOT_PATH: ${{ github.workspace }}/application/management
   APP_NAMES: 'runneragent'
   APP_AUTO_WORKING_FOLDER: "./"
   APP_AUTO_WORKING_PATH: ${{ github.workspace }}/application
