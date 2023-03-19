@@ -13,6 +13,12 @@ variable "remote_sharedcontainerregistries" {
 variable "remote_networks" {
   default = {}
 }
+variable "remote_states" {
+  default = {}
+}
+variable "keyvaults" {
+  default = {}
+}
 variable "resource_groups" {
   default = {}
 }
