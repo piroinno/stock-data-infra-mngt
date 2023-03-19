@@ -54,12 +54,13 @@ jobs:
         uses: piroinno/stock-data-app-automation/build/docker/@init
         with:
           appfolder: ${{ matrix.app }}
-          registryname: ${{ inputs.REGISTRY_NAME }}
-          buildimagename: ${{ matrix.app }}
-          tags: ${{ env.ENVIRONMENT }},latest
-          pushimage: "true"
-          dockerfile: "Dockerfile"
-          dockerfileargs: "RUNNER_VERSION=2.303.0,RUNNER_TOKEN=${{ secrets.RUNNER_TOKEN }},ORGANISATION=${{ github.repository_owner }},REPOSITORY=${{ github.repository }}"
-          acrloginserver: ${{ secrets.ACR_LOGIN_SERVER }}
-          acrusename: ${{ secrets.ACR_USR_NAME }}
-          acrpassword: ${{ secrets.ACR_PWD }}
+          applicationbuildphase: "build"
+          automatedrun: "true"
+          isbuildonly: "true"
+          applicationbuildtags: ${{ env.ENVIRONMENT }},latest
+          applicationbuildimagename: ${{ matrix.app }}
+          applicationbuildimageregistry: ${{ secrets.ACR_LOGIN_SERVER }}
+          applicationbuilddockerfileargs: "RUNNER_VERSION=2.303.0,RUNNER_TOKEN=${{ secrets.RUNNER_TOKEN }},ORGANISATION=${{ github.repository_owner }},REPOSITORY=${{ github.repository }}"
+          applicationbuilddefaulttag: ${{ github.sha }}
+          applicationbuildimagerepository: ${{ env.APP_LANDING_ZONE}}/application
+          applicationbuilddockerfile: "Dockerfile"
