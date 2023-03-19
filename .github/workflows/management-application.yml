@@ -1,4 +1,4 @@
-name: Build and Deploy Management Landing Zone Resources
+name: Build and Deploy Applications
 run-name: ${{ github.event.repository.updated_at}}_${{ github.run_number }}_${{ github.ref }}
 on:
   workflow_dispatch:
