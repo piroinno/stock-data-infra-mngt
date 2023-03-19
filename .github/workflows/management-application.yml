@@ -63,19 +63,3 @@ jobs:
           acrloginserver: ${{ secrets.ACR_LOGIN_SERVER }}
           acrusename: ${{ secrets.ACR_USR_NAME }}
           acrpassword: ${{ secrets.ACR_PWD }}
-
-  deploy:
-    #if: ${{ github.ref == 'refs/heads/main' || github.ref == 'refs/heads/uat' || github.ref == 'refs/heads/dev' }}
-    runs-on: ubuntu-latest
-    needs: [prepare,build,test]
-    strategy:
-      matrix: ${{ fromJSON(needs.prepare.outputs.matrix) }}
-    steps:
-      - uses: actions/checkout@v3
-      - name: Deploy Terraform  (Apply)
-        uses: piroinno/stock-data-infra-tf-automation/deploy@init
-        with:
-          configurationfolder: ${{ matrix.configuration }}
-          terraformconfigplanfile: ${{ env.TF_PLAN_FILE }}_${{ matrix.configuration }}
-          terraformphase: "apply"
-          automatedrun: "true"
