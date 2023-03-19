@@ -1,5 +1,5 @@
 # base image
-FROM ubuntu:22.04
+FROM ubuntu:20.04
 
 #input GitHub runner version argument
 ARG RUNNER_VERSION
@@ -8,7 +8,7 @@ ARG ORGANISATION
 ARG REPOSITORY
 ENV DEBIAN_FRONTEND=noninteractive
 
-LABEL BaseImage="ubuntu:22.04"
+LABEL BaseImage="ubuntu:20.04"
 LABEL RunnerVersion=${RUNNER_VERSION}
 
 RUN apt-get install -y --no-install-recommends \
