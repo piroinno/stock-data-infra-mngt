@@ -1,5 +1,5 @@
 # base image
-FROM ubuntu:22.04
+FROM ubuntu:20.04
 
 #input GitHub runner version argument
 ARG RUNNER_VERSION
@@ -10,7 +10,7 @@ ARG ORGANISATION
 ARG REPOSITORY
 ENV DEBIAN_FRONTEND=noninteractive
 
-LABEL BaseImage="ubuntu:22.04"
+LABEL BaseImage="ubuntu:20.04"
 LABEL BaseImage="TERRAFORM_VERSION:${TERRAFORM_VERSION}"
 LABEL BaseImage="POWERSHELL_VERSION:${POWERSHELL_VERSION}"
 LABEL RunnerVersion=${RUNNER_VERSION}
@@ -27,7 +27,7 @@ RUN wget --quiet https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/t
     && rm terraform_${TERRAFORM_VERSION}_linux_amd64.zip \
     && rm -rf /var/lib/apt/lists/*
 
-RUN wget -q https://packages.microsoft.com/config/ubuntu/22.04/packages-microsoft-prod.deb \
+RUN wget -q https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb \
     && dpkg -i packages-microsoft-prod.deb \
     && apt-get update \
     && add-apt-repository universe \
