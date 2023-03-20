@@ -34,7 +34,7 @@ RUN wget -q https://packages.microsoft.com/config/ubuntu/22.04/packages-microsof
     && add-apt-repository universe \
     && apt-get install -y powershell
 
-RUN curl -L https://aka.ms/InstallAzureCli | bash
+#RUN curl -L https://aka.ms/InstallAzureCli | bash
 
 RUN curl -O -L https://github.com/actions/runner/releases/download/v${RUNNER_VERSION}/actions-runner-linux-x64-${RUNNER_VERSION}.tar.gz \
     && tar xzf ./actions-runner-linux-x64-${RUNNER_VERSION}.tar.gz \
