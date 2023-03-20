@@ -63,7 +63,7 @@ jobs:
           applicationbuildtags: "${{ env.ENVIRONMENT }},latest"
           applicationbuildimagename: "${{ matrix.app }}"
           applicationbuildimageregistry: "${{ secrets.ACR_LOGIN_SERVER }}"
-          applicationbuilddockerfileargs: "POWERSHELL_VERSION=7.3.3,TERRAFORM_VERSION=1.40.0,RUNNER_VERSION=2.303.0,RUNNER_TOKEN=${{ secrets.RUNNER_TOKEN }},ORGANISATION=${{ github.repository_owner }},REPOSITORY=${{ github.event.repository.name }}"
+          applicationbuilddockerfileargs: "POWERSHELL_VERSION=7.3.3,TERRAFORM_VERSION=1.4.2,RUNNER_VERSION=2.303.0,RUNNER_TOKEN=${{ secrets.RUNNER_TOKEN }},ORGANISATION=${{ github.repository_owner }},REPOSITORY=${{ github.event.repository.name }}"
           applicationbuilddefaulttag: "${{ github.sha }}"
           applicationbuildimagerepository: "${{ env.APP_LANDING_ZONE}}/application"
           applicationbuilddockerfile: "Dockerfile"
