@@ -20,8 +20,8 @@ remote_sharedcontainerregistries = {
 }
 
 resource_groups = {
-  aks_mngt_rg = {
-    name   = "aks-mngt-rg"
+  aks_cs_dev_rg = {
+    name   = "aks-cs-dev-rg"
     region = "primary"
   }
 }
@@ -66,13 +66,17 @@ role_mapping = {
       }
     }
     azure_container_registries = {
-      acr1 = {
+      shared_acr_stock_data_mgnt = {
         "AcrPull" = {
           aks_clusters = {
-            keys = ["cluster_re1"]
+            keys = ["aks_clusters"]
           }
         }
       }
     }
   }
 }
+
+subscription_id = "6016324a-afd1-4da5-b026-378af25f609b"
+tenant_id       = "859e9d09-9fe3-4451-9029-35d7fb1f2e59"
+environment     = "dev"

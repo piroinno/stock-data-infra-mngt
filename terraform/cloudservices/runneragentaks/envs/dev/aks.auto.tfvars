@@ -1,7 +1,7 @@
 aks_clusters = {
-  aks_cs = {
+  aks_cs_dev = {
     name               = "aks-cs-dev"
-    resource_group_key = "aks_rg"
+    resource_group_key = "aks_cs_dev_rg"
     os_type            = "Linux"
 
     # diagnostic_profiles = {
@@ -37,8 +37,8 @@ aks_clusters = {
       managed_outbound_ip_count = 1
     }
 
-    default_cs_dev_nodepool = {
-      name                  = "default-cs-dev-nodepool"
+    default_node_pool = {
+      name                  = "default"
       vm_size               = "Standard_DS2_v2"
       subnet_key            = "aks_mgnt_nodepool_system"
       enabled_auto_scaling  = false
@@ -55,7 +55,7 @@ aks_clusters = {
 
     node_pools = {
       nodepool_user = {
-        name                = "nodepool-cs-dev"
+        name                = "poolcsdev"
         mode                = "User"
         subnet_key          = "aks_mgnt_nodepool_user"
         max_pods            = 10
