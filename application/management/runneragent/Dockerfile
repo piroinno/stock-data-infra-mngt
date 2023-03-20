@@ -18,7 +18,7 @@ LABEL RunnerVersion=${RUNNER_VERSION}
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
     curl nodejs wget unzip vim git jq build-essential libssl-dev \
-    libffi-dev python3.11 python3-venv python3-dev python3-pip \
+    libffi-dev python3.10 python3-venv python3-dev python3-pip \
     && apt-get clean
 
 RUN curl -L https://aka.ms/InstallAzureCli | bash
