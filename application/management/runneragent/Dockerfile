@@ -3,7 +3,6 @@ FROM ubuntu:22.04
 
 #input GitHub runner version argument
 ARG RUNNER_VERSION
-ARG RUNNER_TOKEN
 ARG TERRAFORM_VERSION
 ARG POWERSHELL_VERSION
 ARG ORGANISATION
@@ -19,7 +18,7 @@ RUN apt-get update \
     && apt-get install -y --no-install-recommends \
     curl nodejs wget unzip vim git jq build-essential libssl-dev \
     libffi-dev python3 python3-venv python3-dev python3-pip \
-    apt-transport-https software-properties-common \
+    apt-transport-https software-properties-common azure-cli \
     && apt-get clean
 
 RUN wget --quiet https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip \
@@ -39,8 +38,9 @@ RUN wget -q https://packages.microsoft.com/config/ubuntu/22.04/packages-microsof
 RUN mkdir actions-runner && cd actions-runner \
     && curl -O -L https://github.com/actions/runner/releases/download/v${RUNNER_VERSION}/actions-runner-linux-x64-${RUNNER_VERSION}.tar.gz \
     && tar xzf ./actions-runner-linux-x64-${RUNNER_VERSION}.tar.gz \
-    && ./config.sh --url https://github.com/${ORGANISATION}/${REPOSITORY} --token ${RUNNER_TOKEN} --unattended --ephemeral --disableupdate \
-    && rm -f ./actions-runner-linux-x64-${RUNNER_VERSION}.tar.gz
+    && ./bin/installdependencies.sh
 
-# set the entrypoint to the start.sh script
-ENTRYPOINT ["./run.sh"]
+ADD runner.sh runner.sh
+RUN chmod +x runner.sh
+
+ENTRYPOINT ["./runner.sh"]
