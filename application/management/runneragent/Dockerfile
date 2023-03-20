@@ -27,11 +27,11 @@ RUN wget --quiet https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/t
     && rm terraform_${TERRAFORM_VERSION}_linux_amd64.zip \
     && rm -rf /var/lib/apt/lists/*
 
-RUN curl -L -o /tmp/powershell.tar.gz https://github.com/PowerShell/PowerShell/releases/download/v${POWERSHELL_VERSION}/powershell-${POWERSHELL_VERSION}-linux-x64.tar.gz \
-    && sudo mkdir -p /opt/microsoft/powershell/7 \
-    && sudo tar zxf /tmp/powershell.tar.gz -C /opt/microsoft/powershell/7 \
-    && sudo chmod +x /opt/microsoft/powershell/7/pwsh \
-    && sudo ln -s /opt/microsoft/powershell/7/pwsh /usr/bin/pwsh
+RUN wget -q https://packages.microsoft.com/config/ubuntu/22.04/packages-microsoft-prod.deb \
+    && dpkg -i packages-microsoft-prod.deb \
+    && apt-get update \
+    && add-apt-repository universe \
+    && apt-get install -y powershell
 
 RUN curl -L https://aka.ms/InstallAzureCli | bash
 
