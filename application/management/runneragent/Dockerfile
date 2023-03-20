@@ -11,7 +11,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 LABEL BaseImage="ubuntu:20.04"
 LABEL RunnerVersion=${RUNNER_VERSION}
 
-RUN curl "https://www.google.com"
+RUN apt-get install -y --no-install-recommends
 
 RUN apt-get install -y --no-install-recommends \
     curl nodejs wget unzip vim git azure-cli jq build-essential libssl-dev libffi-dev python3 python3-venv python3-dev python3-pip \
