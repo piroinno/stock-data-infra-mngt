@@ -36,9 +36,10 @@ RUN wget -q https://packages.microsoft.com/config/ubuntu/22.04/packages-microsof
 
 #RUN curl -L https://aka.ms/InstallAzureCli | bash
 
-RUN curl -O -L https://github.com/actions/runner/releases/download/v${RUNNER_VERSION}/actions-runner-linux-x64-${RUNNER_VERSION}.tar.gz \
+RUN mkdir actions-runner && cd actions-runner \
+    && curl -O -L https://github.com/actions/runner/releases/download/v${RUNNER_VERSION}/actions-runner-linux-x64-${RUNNER_VERSION}.tar.gz \
     && tar xzf ./actions-runner-linux-x64-${RUNNER_VERSION}.tar.gz \
-    && ls -lrt && ./config.sh --url https://github.com/${ORGANISATION}/${REPOSITORY} --token ${RUNNER_TOKEN} \
+    && ./config.sh --url https://github.com/${ORGANISATION}/${REPOSITORY} --token ${RUNNER_TOKEN} \
     && rm -f ./actions-runner-linux-x64-${RUNNER_VERSION}.tar.gz
 
 # set the entrypoint to the start.sh script
