@@ -21,6 +21,8 @@ RUN apt-get update \
     apt-transport-https software-properties-common \
     && apt-get clean
 
+RUN curl -L https://aka.ms/InstallAzureCli | bash
+
 RUN wget --quiet https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip \
     && unzip terraform_${TERRAFORM_VERSION}_linux_amd64.zip \
     && mv terraform /usr/bin \
@@ -32,8 +34,6 @@ RUN wget -q https://packages.microsoft.com/config/ubuntu/22.04/packages-microsof
     && apt-get update \
     && add-apt-repository universe \
     && apt-get install -y powershell
-
-RUN curl -L https://aka.ms/InstallAzureCli | bash
 
 RUN mkdir actions-runner && cd actions-runner \
     && curl -O -L https://github.com/actions/runner/releases/download/v${RUNNER_VERSION}/actions-runner-linux-x64-${RUNNER_VERSION}.tar.gz \
