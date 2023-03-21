@@ -21,7 +21,7 @@ RUN apt-get update \
     apt-transport-https software-properties-common libssl1.0 \
     && apt-get clean
 
-RUN curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+RUN curl -sL https://aka.ms/InstallAzureCLIDeb | bash
 
 RUN wget --quiet https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip \
     && unzip terraform_${TERRAFORM_VERSION}_linux_amd64.zip \
