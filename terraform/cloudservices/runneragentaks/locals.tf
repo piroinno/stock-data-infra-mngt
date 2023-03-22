@@ -12,3 +12,9 @@ locals {
   }
 }
 
+
+locals {
+  resource_group_id_map = {
+    for k, v in module.caf.resource_groups : v.name => v.id
+  }
+}

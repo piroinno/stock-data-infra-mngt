@@ -1,3 +1,6 @@
+variable "runneragent" {
+  default = {}
+}
 variable "azuread_groups" {
   default = {}
 }

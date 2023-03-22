@@ -3,14 +3,19 @@ terraform {
   backend "azurerm" {}
   required_providers {
     azurerm = {
-      source  = "hashicorp/azurerm"
+      source = "hashicorp/azurerm"
     }
     azuread = {
-      source  = "hashicorp/azuread"
+      source = "hashicorp/azuread"
     }
     azurecaf = {
       source  = "aztfmod/azurecaf"
-      version = "2.0.0-preview3"
+    }
+    azapi = {
+      source = "azure/azapi"
+    }
+    helm = {
+      source = "hashicorp/helm"
     }
   }
 }

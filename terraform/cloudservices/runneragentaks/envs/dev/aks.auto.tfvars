@@ -16,6 +16,13 @@ aks_clusters = {
       type = "SystemAssigned"
     }
 
+    addon_profile = {
+      azure_keyvault_secrets_provider = {
+        secret_rotation_enabled  = true
+        secret_rotation_interval = "2m"
+      }
+    }
+    
     vnet_key = "cs_stock_data_dev"
     lz_key   = "cloudservices"
 
@@ -27,6 +34,11 @@ aks_clusters = {
     private_cluster_enabled = true
     enable_rbac             = true
     outbound_type           = "userDefinedRouting"
+
+    key_vault_secrets_provider = {
+      secret_rotation_enabled = true
+      secret_rotationinterval = "2m"
+    }
 
     admin_groups = {
       # ids = []

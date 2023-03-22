@@ -8,3 +8,5 @@ provider "azurerm" {
 }
 
 provider "azurecaf" {}
+
+provider "azapi" {}

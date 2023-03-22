@@ -24,6 +24,10 @@ resource_groups = {
     name   = "aks-cs-dev-rg"
     region = "primary"
   }
+  runneragent_identities = {
+    name   = "runneragent-identities"
+    region = "primary"
+  }
 }
 
 azuread_groups = {
