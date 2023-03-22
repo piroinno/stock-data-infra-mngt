@@ -16,4 +16,10 @@ spec:
     createNamespace: true
   interval: 1m0s
   targetNamespace: keda-system
+  values:
+    podIdentity:
+      azureWorkload:
+        clientId: 66d9baaf-6293-4a6b-8b1b-7b0d57202a4f
+        enabled: true
+        tenantId: 859e9d09-9fe3-4451-9029-35d7fb1f2e59
 

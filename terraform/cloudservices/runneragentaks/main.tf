@@ -43,11 +43,6 @@ resource "azapi_update_resource" "aks_for_oidc" {
           enabled = true
         }
       }
-      workloadAutoScalerProfile = {
-        keda = {
-          enabled = true
-        }
-      }
     }
   })
   response_export_values = ["*"]
@@ -75,6 +70,36 @@ resource "azapi_resource" "federated_identity_credential" {
       ]
       issuer  = jsondecode(azapi_update_resource.aks_for_oidc[each.value.aks_cluster_key].output).properties.oidcIssuerProfile.issuerURL
       subject = "system:serviceaccount:${var.runneragent.identities[each.key].namespace}:${var.runneragent.identities[each.key].serviceaccount}"
+    }
+  })
+  depends_on = [
+    azurerm_user_assigned_identity.runneragent_identities,
+    azapi_update_resource.aks_for_oidc
+  ]
+}
+
+resource "azurerm_user_assigned_identity" "runneragent_identities_keda" {
+  for_each            = var.runneragent.identities
+  location            = var.global_settings.regions.primary
+  name                = "${each.key}-keda"
+  resource_group_name = module.caf.resource_groups[each.value.resource_group_name_key].name
+  depends_on = [
+    module.caf.resource_groups
+  ]
+}
+
+resource "azapi_resource" "federated_identity_credential_keda" {
+  for_each  = var.runneragent.identities
+  type      = "Microsoft.ManagedIdentity/userAssignedIdentities/federatedIdentityCredentials@2022-01-31-preview"
+  name      = "${each.key}-keda"
+  parent_id = azurerm_user_assigned_identity.runneragent_identities_keda[each.key].id
+  body = jsonencode({
+    properties = {
+      audiences = [
+        "api://AzureADTokenExchange"
+      ]
+      issuer  = jsondecode(azapi_update_resource.aks_for_oidc[each.value.aks_cluster_key].output).properties.oidcIssuerProfile.issuerURL
+      subject = "system:serviceaccount:${var.runneragent.identities[each.key].namespace}:keda-operator"
     }
   })
   depends_on = [
