@@ -28,6 +28,10 @@ resource_groups = {
     name   = "runneragent-identities"
     region = "primary"
   }
+  runneragent_github = {
+    name   = "runneragent-github"
+    region = "primary"
+  }
 }
 
 azuread_groups = {

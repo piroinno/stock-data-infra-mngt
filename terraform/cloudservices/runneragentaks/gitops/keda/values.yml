@@ -1,0 +1,5 @@
+podIdentity:
+  azureWorkload:
+    enabled: true
+    clientId: "66d9baaf-6293-4a6b-8b1b-7b0d57202a4f"
+    tenantId: "859e9d09-9fe3-4451-9029-35d7fb1f2e59"

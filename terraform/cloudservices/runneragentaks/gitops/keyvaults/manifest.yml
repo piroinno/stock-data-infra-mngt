@@ -1,0 +1,23 @@
+apiVersion: secrets-store.csi.x-k8s.io/v1
+kind: SecretProviderClass
+metadata:
+  name: azure-sync
+spec:
+  provider: azure
+  parameters:
+    usePodIdentity: "false"
+    useVMManagedIdentity: "false"          
+    clientID: "d32c56d3-c158-43a8-b600-72384cba3b88"
+    keyvaultName: "orye-kv-ra-git"
+    tenantId: "859e9d09-9fe3-4451-9029-35d7fb1f2e59"   
+    objects:  |
+        array:
+          - |
+            objectName: PAT
+            objectType: secret 
+          - |
+            objectName: REPOSITORY
+            objectType: secret 
+          - |
+            objectName: ORGANISATION
+            objectType: secret
