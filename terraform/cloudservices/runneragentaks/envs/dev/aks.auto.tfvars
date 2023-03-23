@@ -22,7 +22,7 @@ aks_clusters = {
         secret_rotation_interval = "2m"
       }
     }
-    
+
     vnet_key = "cs_stock_data_dev"
     lz_key   = "cloudservices"
 
@@ -75,6 +75,7 @@ aks_clusters = {
         node_count          = 1
         enable_auto_scaling = false
         os_disk_size_gb     = 128
+        prioriry            = "spot"
         tags = {
           "project" = "cloudservices user services"
         }
