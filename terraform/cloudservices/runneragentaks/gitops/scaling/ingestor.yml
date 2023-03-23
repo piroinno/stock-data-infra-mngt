@@ -69,12 +69,12 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: github-auth
-                  key: INGESTOR_REPOSITORY
+                  key: ORGANISATION
             - name: REPOSITORY
               valueFrom:
                 secretKeyRef:
                   name: github-auth
-                  key: REPOSITORY
+                  key: INGESTOR_REPOSITORY
           volumeMounts:
             - name: kv-secret-store
               mountPath: "/mnt/github-auth"
