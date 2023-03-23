@@ -19,12 +19,12 @@ env:
   ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
   ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
   TF_PLAN_FILE: tfplan
-  TF_LANDING_ZONE: 'management'
-  TF_LANDING_ZONE_ROOT_PATH: ${{ github.workspace }}/terraform/management
-  TF_CONFIGURATIONS: 'network'
+  TF_LANDING_ZONE: 'cloudservices'
+  TF_LANDING_ZONE_ROOT_PATH: ${{ github.workspace }}/terraform/cloudservices
+  TF_CONFIGURATIONS: 'runneragentaks'
   TF_AUTO_WORKING_FOLDER: "./"
   TF_AUTO_WORKING_PATH: ${{ github.workspace }}/terraform
-  ENVIRONMENT: mgnt
+  ENVIRONMENT: ${{ fromJSON('["dev", "prd"]')[github.ref == 'refs/heads/main'] }}
 
 jobs:
   prepare:
