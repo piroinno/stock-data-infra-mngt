@@ -1,0 +1,88 @@
+apiVersion: keda.sh/v1alpha1
+kind: TriggerAuthentication
+metadata:
+  name: github-trigger-auth
+  namespace: runneragent
+spec:
+  secretTargetRef:
+    - parameter: personalAccessToken
+      name: github-auth
+      key: PAT
+---
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: github-runner-scaledobject
+  namespace: runneragent
+spec:
+  scaleTargetRef:
+    name: runneragent-deployment
+  minReplicaCount: 1
+  maxReplicaCount: 5
+  triggers:
+    - type: github-runner
+      metadata:
+        githubAPIURL: "https://api.github.com"
+        owner: "kedacore"
+        runnerScope: "repo"
+        repos: "stock-data-infra-mngt"
+        targetWorkflowQueueLength: "1"
+      authenticationRef:
+        name: github-trigger-auth
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: runneragent-deployment
+  namespace: runneragent
+  labels:
+    app: runneragent
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: runneragent
+  template:
+    metadata:
+      labels:
+        app: runneragent
+    spec:
+      serviceAccountName: runneragent-service
+      containers:
+        - name: runneragent
+          image: psxycrsharedacrstockdatamgnt.azurecr.io/cloudservices/application/runneragent:latest
+          resources:
+            requests:
+              memory: "1024M"
+              cpu: "0.2"
+            limits:
+              memory: "2048M"
+              cpu: "1"
+          imagePullPolicy: Always
+          env:
+            - name: PAT
+              valueFrom:
+                secretKeyRef:
+                  name: github-auth
+                  key: PAT
+            - name: ORGANISATION
+              valueFrom:
+                secretKeyRef:
+                  name: github-auth
+                  key: ORGANISATION
+            - name: REPOSITORY
+              valueFrom:
+                secretKeyRef:
+                  name: github-auth
+                  key: MGNT_REPOSITORY
+          volumeMounts:
+            - name: kv-secret-store
+              mountPath: "/mnt/github-auth"
+              readOnly: true
+      volumes:
+        - name: kv-secret-store
+          csi:
+            driver: secrets-store.csi.k8s.io
+            readOnly: true
+            volumeAttributes:
+              secretProviderClass: "azure-sync"

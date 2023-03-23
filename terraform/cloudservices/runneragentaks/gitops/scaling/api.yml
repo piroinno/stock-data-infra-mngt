@@ -25,7 +25,7 @@ spec:
         githubAPIURL: "https://api.github.com"
         owner: "kedacore"
         runnerScope: "repo"
-        repos: "stock-data-api,stock-data-model,stock-data-ingestor,stock-data-infra-mngt"
+        repos: "stock-data-ingestor"
         targetWorkflowQueueLength: "1"
       authenticationRef:
         name: github-trigger-auth
@@ -54,7 +54,7 @@ spec:
           resources:
             requests:
               memory: "1024M"
-              cpu: "0.5"
+              cpu: "0.2"
             limits:
               memory: "2048M"
               cpu: "1"
@@ -74,7 +74,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: github-auth
-                  key: REPOSITORY
+                  key: API_REPOSITORY
           volumeMounts:
             - name: kv-secret-store
               mountPath: "/mnt/github-auth"
