@@ -14,6 +14,8 @@ LABEL BaseImage="TERRAFORM_VERSION:${TERRAFORM_VERSION}"
 LABEL BaseImage="POWERSHELL_VERSION:${POWERSHELL_VERSION}"
 LABEL RunnerVersion=${RUNNER_VERSION}
 
+RUN apt-get update -y && apt-get upgrade -y && useradd -m docker
+
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
     curl nodejs wget unzip vim git jq build-essential libssl-dev \
@@ -35,12 +37,18 @@ RUN wget -q https://packages.microsoft.com/config/ubuntu/22.04/packages-microsof
     && add-apt-repository universe \
     && apt-get install -y powershell
 
-RUN mkdir actions-runner && cd actions-runner \
+RUN cd /home/docker && mkdir actions-runner
+WORKDIR /home/docker/actions-runner
+
+RUN cd /home/docker/actions-runner \
     && curl -O -L https://github.com/actions/runner/releases/download/v${RUNNER_VERSION}/actions-runner-linux-x64-${RUNNER_VERSION}.tar.gz \
-    && tar xzf ./actions-runner-linux-x64-${RUNNER_VERSION}.tar.gz \
-    && ./bin/installdependencies.sh
+    && tar xzf ./actions-runner-linux-x64-${RUNNER_VERSION}.tar.gz
+
+RUN chown -R docker ~docker && /home/docker/actions-runner/bin/installdependencies.sh
 
 ADD runner.sh runner.sh
 RUN chmod +x runner.sh
+
+USER docker
 
 ENTRYPOINT ["./runner.sh"]
