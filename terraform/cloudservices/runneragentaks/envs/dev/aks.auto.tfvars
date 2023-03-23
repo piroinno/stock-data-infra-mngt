@@ -70,12 +70,12 @@ aks_clusters = {
         name                = "poolcsdev"
         mode                = "User"
         subnet_key          = "aks_mgnt_nodepool_user"
-        max_pods            = 10
-        vm_size             = "Standard_DS2_v2"
-        node_count          = 1
+        max_pods            = 20
+        vm_size             = "Standard_F4"
+        node_count          = 3
         enable_auto_scaling = false
         os_disk_size_gb     = 128
-        prioriry            = "spot"
+        priority            = "Spot"
         tags = {
           "project" = "cloudservices user services"
         }

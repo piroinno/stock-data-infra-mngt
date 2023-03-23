@@ -79,6 +79,20 @@ spec:
             - name: kv-secret-store
               mountPath: "/mnt/github-auth"
               readOnly: true
+      tolerations:
+        - key: "kubernetes.azure.com/scalesetpriority"
+          operator: "Equal"
+          value: "spot"
+          effect: "NoSchedule"
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: "kubernetes.azure.com/scalesetpriority"
+                    operator: In
+                    values:
+                      - "spot"
       volumes:
         - name: kv-secret-store
           csi:
