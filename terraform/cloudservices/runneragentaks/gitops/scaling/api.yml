@@ -1,7 +1,7 @@
 apiVersion: keda.sh/v1alpha1
 kind: TriggerAuthentication
 metadata:
-  name: github-trigger-auth
+  name: github-trigger-auth-api
   namespace: runneragent
 spec:
   secretTargetRef:
@@ -16,7 +16,7 @@ metadata:
   namespace: runneragent
 spec:
   scaleTargetRef:
-    name: runneragent-deployment
+    name: runneragent-deployment-api
   minReplicaCount: 1
   maxReplicaCount: 5
   triggers:
@@ -28,28 +28,28 @@ spec:
         repos: "stock-data-ingestor"
         targetWorkflowQueueLength: "1"
       authenticationRef:
-        name: github-trigger-auth
+        name: github-trigger-auth-api
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: runneragent-deployment
+  name: runneragent-deployment-api
   namespace: runneragent
   labels:
-    app: runneragent
+    app: runneragent-api
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: runneragent
+      app: runneragent-api
   template:
     metadata:
       labels:
-        app: runneragent
+        app: runneragent-api
     spec:
       serviceAccountName: runneragent-service
       containers:
-        - name: runneragent
+        - name: runneragent-api
           image: psxycrsharedacrstockdatamgnt.azurecr.io/cloudservices/application/runneragent:latest
           resources:
             requests:

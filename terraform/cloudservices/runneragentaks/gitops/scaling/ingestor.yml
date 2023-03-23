@@ -1,7 +1,7 @@
 apiVersion: keda.sh/v1alpha1
 kind: TriggerAuthentication
 metadata:
-  name: github-trigger-auth
+  name: github-trigger-auth-ingestor
   namespace: runneragent
 spec:
   secretTargetRef:
@@ -12,11 +12,11 @@ spec:
 apiVersion: keda.sh/v1alpha1
 kind: ScaledObject
 metadata:
-  name: github-runner-scaledobject
+  name: github-runner-scaledobject-ingestor
   namespace: runneragent
 spec:
   scaleTargetRef:
-    name: runneragent-deployment
+    name: runneragent-deployment-ingestor
   minReplicaCount: 1
   maxReplicaCount: 5
   triggers:
@@ -28,28 +28,28 @@ spec:
         repos: "ingestor"
         targetWorkflowQueueLength: "1"
       authenticationRef:
-        name: github-trigger-auth
+        name: github-trigger-auth-ingestor
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: runneragent-deployment
+  name: runneragent-deployment-ingestor
   namespace: runneragent
   labels:
-    app: runneragent
+    app: runneragent-ingestor
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: runneragent
+      app: runneragent-ingestor
   template:
     metadata:
       labels:
-        app: runneragent
+        app: runneragent-ingestor
     spec:
       serviceAccountName: runneragent-service
       containers:
-        - name: runneragent
+        - name: runneragent-ingestor
           image: psxycrsharedacrstockdatamgnt.azurecr.io/cloudservices/application/runneragent:latest
           resources:
             requests:
