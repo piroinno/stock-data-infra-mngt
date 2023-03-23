@@ -5,6 +5,16 @@ metadata:
   namespace: runneragent
 spec:
   provider: azure
+  secretObjects:
+  - secretName: github-auth
+    type: Opaque
+    data:
+    - objectName: PAT
+      key: PAT
+    - objectName: ORGANISATION
+      key: ORGANISATION
+    - objectName: REPOSITORY
+      key: REPOSITORY
   parameters:
     usePodIdentity: "false"
     useVMManagedIdentity: "false"          

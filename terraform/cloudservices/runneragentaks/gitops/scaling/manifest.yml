@@ -75,14 +75,3 @@ spec:
                 secretKeyRef:
                   name: github-auth
                   key: REPOSITORY
-          volumeMounts:
-            - name: kv-secret-store
-              mountPath: "/mnt/github-auth"
-              readOnly: true
-      volumes:
-        - name: kv-secret-store
-          csi:
-            driver: secrets-store.csi.k8s.io
-            readOnly: true
-            volumeAttributes:
-              secretProviderClass: "azure-sync"
