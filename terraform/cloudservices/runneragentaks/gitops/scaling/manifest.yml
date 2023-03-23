@@ -50,7 +50,7 @@ spec:
       serviceAccountName: runneragent-service
       containers:
         - name: runneragent
-          image: psxycrsharedacrstockdatamgnt.azurecr.io/management/application/runneragent:latest
+          image: psxycrsharedacrstockdatamgnt.azurecr.io/cloudservices/application/runneragent:latest
           resources:
             requests:
               memory: "1024M"
