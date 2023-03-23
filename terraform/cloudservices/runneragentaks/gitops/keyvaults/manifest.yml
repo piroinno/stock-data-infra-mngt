@@ -13,11 +13,11 @@ spec:
       key: PAT
     - objectName: ORGANISATION
       key: ORGANISATION
-    - objectName: INGESTOR_REPOSITORY
+    - objectName: INGESTOR-REPOSITORY
       key: INGESTOR_REPOSITORY
-    - objectName: API_REPOSITORY
+    - objectName: API-REPOSITORY
       key: API_REPOSITORY
-    - objectName: MGNT_REPOSITORY
+    - objectName: MGNT-REPOSITORY
       key: MGNT_REPOSITORY
   parameters:
     usePodIdentity: "false"
@@ -31,13 +31,13 @@ spec:
             objectName: PAT
             objectType: secret 
           - |
-            objectName: INGESTOR_REPOSITORY
+            objectName: INGESTOR-REPOSITORY
             objectType: secret 
           - |
-            objectName: API_REPOSITORY
+            objectName: API-REPOSITORY
             objectType: secret 
           - |
-            objectName: MGNT_REPOSITORY
+            objectName: MGNT-REPOSITORY
             objectType: secret 
           - |
             objectName: ORGANISATION
