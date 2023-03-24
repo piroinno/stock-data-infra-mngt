@@ -21,6 +21,14 @@ vnets = {
         name = "aks-dev-nodepool-user"
         cidr = ["100.64.100.192/26"]
       }
+      aks_com_stock_data_nodepool_system = {
+        name = "aks-com-sd-dev-nodepool-system"
+        cidr = ["100.64.101.192/26"]
+      }
+      aks_com_stock_data_nodepool_user = {
+        name = "aks-com-sd-dev-nodepool-user"
+        cidr = ["100.64.101.128/26"]
+      }
     }
   }
 }

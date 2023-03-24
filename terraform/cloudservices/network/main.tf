@@ -11,8 +11,7 @@ module "caf" {
   }
 
   remote_objects = {
-    vnets                      = local.remote_vnets
-    azure_container_registries = local.remote_azure_container_registries
+    vnets = local.remote_vnets
   }
 
   networking = {
