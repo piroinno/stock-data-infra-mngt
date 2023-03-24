@@ -26,8 +26,7 @@ env:
   APP_NAMES: 'runneragent'
   APP_AUTO_WORKING_FOLDER: "./"
   APP_AUTO_WORKING_PATH: ${{ github.workspace }}/application
-  #ENVIRONMENT: ${{ fromJSON('["dev", "prd"]')[github.ref == 'refs/heads/main'] }}
-  ENVIRONMENT: mgnt
+  ENVIRONMENT: ${{ fromJSON('["dev", "prd"]')[github.ref == 'refs/heads/main'] }}
 
 jobs:
   prepare:
@@ -54,7 +53,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Build docker image
-        uses: piroinno/stock-data-app-automation/build/docker/@init
+        uses: piroinno/stock-data-app-automation/build/docker/@v1.1.0
         with:
           appfolder: ${{ matrix.app }}
           applicationbuildphase: "build"
