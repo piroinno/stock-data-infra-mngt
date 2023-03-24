@@ -14,7 +14,7 @@ LABEL BaseImage="TERRAFORM_VERSION:${TERRAFORM_VERSION}"
 LABEL BaseImage="POWERSHELL_VERSION:${POWERSHELL_VERSION}"
 LABEL RunnerVersion=${RUNNER_VERSION}
 
-RUN apt-get update -y && apt-get upgrade -y && useradd -m docker && usermod -aG docker nonroot
+RUN apt-get update -y && apt-get upgrade -y && useradd -m docker
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
