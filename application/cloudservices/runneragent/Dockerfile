@@ -14,7 +14,7 @@ LABEL BaseImage="TERRAFORM_VERSION:${TERRAFORM_VERSION}"
 LABEL BaseImage="POWERSHELL_VERSION:${POWERSHELL_VERSION}"
 LABEL RunnerVersion=${RUNNER_VERSION}
 
-RUN apt-get update -y && apt-get upgrade -y && useradd -m docker
+RUN apt-get update -y && apt-get upgrade -y && useradd -m docker && usermod -aG docker nonroot
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
@@ -36,6 +36,12 @@ RUN wget -q https://packages.microsoft.com/config/ubuntu/22.04/packages-microsof
     && apt-get update \
     && add-apt-repository universe \
     && apt-get install -y powershell
+
+RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add - \
+    && add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable" \
+    && apt update \
+    && apt-cache policy docker-ce \
+    && apt install docker-ce -y
 
 RUN cd /home/docker && mkdir actions-runner
 WORKDIR /home/docker/actions-runner

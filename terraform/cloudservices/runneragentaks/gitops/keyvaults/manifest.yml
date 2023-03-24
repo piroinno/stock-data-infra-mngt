@@ -19,6 +19,8 @@ spec:
       key: API_REPOSITORY
     - objectName: MGNT-REPOSITORY
       key: MGNT_REPOSITORY
+    - objectName: MODEL-REPOSITORY
+      key: MODEL_REPOSITORY
   parameters:
     usePodIdentity: "false"
     useVMManagedIdentity: "false"          
@@ -39,6 +41,9 @@ spec:
           - |
             objectName: MGNT-REPOSITORY
             objectType: secret 
+          - |
+            objectName: MODEL-REPOSITORY
+            objectType: secret
           - |
             objectName: ORGANISATION
             objectType: secret
