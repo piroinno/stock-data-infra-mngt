@@ -74,7 +74,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: github-auth
-                  key: MGNT_REPOSITORY
+                  key: MODEL_REPOSITORY
           volumeMounts:
             - name: kv-secret-store
               mountPath: "/mnt/github-auth"

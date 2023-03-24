@@ -37,6 +37,12 @@ RUN wget -q https://packages.microsoft.com/config/ubuntu/22.04/packages-microsof
     && add-apt-repository universe \
     && apt-get install -y powershell
 
+RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add - \
+    && add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable" \
+    && apt update \
+    && apt-cache policy docker-ce \
+    && apt install docker-ce -y
+
 RUN cd /home/docker && mkdir actions-runner
 WORKDIR /home/docker/actions-runner
 
