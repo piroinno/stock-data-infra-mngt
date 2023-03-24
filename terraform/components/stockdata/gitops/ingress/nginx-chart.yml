@@ -6,5 +6,5 @@ metadata:
   namespace: flux-system
 spec:
   interval: 5m0s
-  url: https://helm.nginx.com/stable
+  url: https://charts.bitnami.com/bitnami
 
