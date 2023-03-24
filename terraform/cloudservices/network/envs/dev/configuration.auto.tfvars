@@ -6,19 +6,19 @@ global_settings = {
 }
 
 resource_groups = {
-  vnet_hub_mgnt = {
-    name   = "vnet-hub-mgnt"
+  vnet_cs_stock_data_dev = {
+    name   = "vnet-cs-stock-data-dev"
     region = "primary"
   }
 }
 
 remote_networks = {
-  cloudservices = {
-    name          = "cs_stock_data_dev"
+  management = {
+    name          = "hub-mgnt"
     configuration = "network"
   }
 }
 
-subscription_id = "5ae65a7a-19c4-4bf6-b409-3f5e2e490cdb"
+subscription_id = "6016324a-afd1-4da5-b026-378af25f609b"
 tenant_id       = "859e9d09-9fe3-4451-9029-35d7fb1f2e59"
-environment     = "mgnt"
+environment     = "dev"

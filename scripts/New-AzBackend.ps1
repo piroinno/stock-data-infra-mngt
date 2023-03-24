@@ -22,33 +22,26 @@ begin {
 
     $AdminLocalIP = (Invoke-WebRequest -Uri "https://api.ipify.org").Content
 
-    if((Get-AzADGroup -DisplayName "Terraform Admins" -ErrorAction 0)) {
-        Write-Warning "Terraform Admins group already exists"
-        $TfAdminGroup = (Get-AzADGroup -DisplayName "Terraform Admins")
+    if((Get-AzADGroup -DisplayName "$($IacConfiguration.properties.landing_zone.name) Terraform Admins" -ErrorAction 0)) {
+        Write-Warning "$($IacConfiguration.properties.landing_zone.name) Terraform Admins group already exists"
+        $TfAdminGroup = (Get-AzADGroup -DisplayName "$($IacConfiguration.properties.landing_zone.name) Terraform Admins")
     }
     else {
-        $TfAdminGroup = New-AzADGroup -DisplayName "Terraform Admins" -MailNickname "TerraformAdmins" -SecurityEnabled
+        $TfAdminGroup = New-AzADGroup -DisplayName "$($IacConfiguration.properties.landing_zone.name) Terraform Admins" -MailNickname "$($IacConfiguration.properties.landing_zone.name)TerraformAdmins" -SecurityEnabled
     }
-    if((Get-AzADGroup -DisplayName "Terraform Users" -ErrorAction 0)) {
-        Write-Warning "Terraform Users group already exists"
-        $TfUserGroup = (Get-AzADGroup -DisplayName "Terraform Users")
-    }
-    else {
-        $TfUserGroup = New-AzADGroup -DisplayName "Terraform Users" -MailNickname "TerraformUsers" -SecurityEnabled
-    }
-    if((Get-AzADGroup -DisplayName "Terraform Service Principals" -ErrorAction 0)) {
-        Write-Warning "Terraform Service Principals group already exists"
-        $TfSpnGroup = (Get-AzADGroup -DisplayName "Terraform Service Principals")
+    if((Get-AzADGroup -DisplayName "$($IacConfiguration.properties.landing_zone.name) Terraform Users" -ErrorAction 0)) {
+        Write-Warning "$($IacConfiguration.properties.landing_zone.name) Terraform Users group already exists"
+        $TfUserGroup = (Get-AzADGroup -DisplayName "$($IacConfiguration.properties.landing_zone.name) Terraform Users")
     }
     else {
-        $TfSpnGroup = New-AzADGroup -DisplayName "Terraform Service Principals" -MailNickname "TerraformServicePrincipals" -SecurityEnabled
+        $TfUserGroup = New-AzADGroup -DisplayName "$($IacConfiguration.properties.landing_zone.name) Terraform Users" -MailNickname "$($IacConfiguration.properties.landing_zone.name)TerraformUsers" -SecurityEnabled
     }
-
-    if((Get-AzADGroupMember -GroupObjectId $TfSpnGroup.Id -ErrorAction 0 | ?{$_.Id -eq $SPN.Id})) {
-        Write-Warning "Service principal $SPNConfiguration.name already exists in Terraform Service Principals group"
+    if((Get-AzADGroup -DisplayName "$($IacConfiguration.properties.landing_zone.name) Terraform Service Principals" -ErrorAction 0)) {
+        Write-Warning "$($IacConfiguration.properties.landing_zone.name) Terraform Service Principals group already exists"
+        $TfSpnGroup = (Get-AzADGroup -DisplayName "$($IacConfiguration.properties.landing_zone.name) Terraform Service Principals")
     }
     else {
-        Add-AzADGroupMember -TargetGroupObjectId $TfSpnGroup.Id -MemberObjectId $SPN.Id
+        $TfSpnGroup = New-AzADGroup -DisplayName "$($IacConfiguration.properties.landing_zone.name) Terraform Service Principals" -MailNickname "$($IacConfiguration.properties.landing_zone.name)TerraformServicePrincipals" -SecurityEnabled
     }
 }
 
@@ -82,7 +75,7 @@ process {
     }
     $SASubscription = (Get-AzSubscription -SubscriptionId $SAConfiguration.subscription_id)
     if((Get-AzRoleAssignment -ObjectId $TfAdminGroup.Id -Scope "/subscriptions/$($SASubscription.Id)" -ErrorAction 0 | ?{$_.RoleDefinitionName -eq "Owner"})) {
-        Write-Warning "Terraform Admins already has Owner role on $SASubscription.Name"
+        Write-Warning "$($IacConfiguration.properties.landing_zone.name) Terraform Admins already has Owner role on $SASubscription.Name"
     }
     else {
         New-AzRoleAssignment -ObjectId $TfAdminGroup.Id `
@@ -90,7 +83,7 @@ process {
             -Scope "/subscriptions/$($SASubscription.Id)"
     }
     if((Get-AzRoleAssignment -ObjectId $TfSpnGroup.Id -Scope "/subscriptions/$($SASubscription.Id)" -ErrorAction 0) | ?{$_.RoleDefinitionName -eq "Contributor"}) {
-        Write-Warning "Terraform Service Principals already has Contributor role on $SASubscription.Name"
+        Write-Warning "$($IacConfiguration.properties.landing_zone.name) Terraform Service Principals already has Contributor role on $SASubscription.Name"
     }
     else {
         New-AzRoleAssignment -ObjectId $TfSpnGroup.Id `
@@ -98,7 +91,7 @@ process {
             -Scope "/subscriptions/$($SASubscription.Id)" 
     }
     if((Get-AzRoleAssignment -ObjectId $TfUserGroup.Id -Scope "/subscriptions/$($SASubscription.Id)" -ErrorAction 0)) {
-        Write-Warning "Terraform Users already has Reader role on $SASubscription.Name"
+        Write-Warning "$($IacConfiguration.properties.landing_zone.name) Terraform Users already has Reader role on $SASubscription.Name"
     }
     else {
         New-AzRoleAssignment -ObjectId $TfUserGroup.Id `
@@ -123,7 +116,7 @@ process {
             -EnableHierarchicalNamespace $SAConfiguration.enable_hierarchical_namespace
     }
     if((Get-AzRoleAssignment -ObjectId $TfAdminGroup.Id -Scope $StorageAccount.Id -ErrorAction 0)) {
-        Write-Warning "Terraform Admins already has Storage Blob Data Contributor role on $StorageAccount.Name"
+        Write-Warning "$($IacConfiguration.properties.landing_zone.name) Terraform Admins already has Storage Blob Data Contributor role on $StorageAccount.Name"
     }
     else {
         New-AzRoleAssignment -ObjectId $TfAdminGroup.Id `
@@ -131,7 +124,7 @@ process {
             -Scope $StorageAccount.Id
     }
     if((Get-AzRoleAssignment -ObjectId $TfSpnGroup.Id -Scope $StorageAccount.Id -ErrorAction 0)) {
-        Write-Warning "Terraform Service Principals already has Storage Blob Data Contributor role on $StorageAccount.Name"
+        Write-Warning "$($IacConfiguration.properties.landing_zone.name) Terraform Service Principals already has Storage Blob Data Contributor role on $StorageAccount.Name"
     }
     else {
         New-AzRoleAssignment -ObjectId $TfSpnGroup.Id `
@@ -139,7 +132,7 @@ process {
             -Scope $StorageAccount.Id
     }
     if((Get-AzRoleAssignment -ObjectId $TfUserGroup.Id -Scope $StorageAccount.Id -ErrorAction 0)) {
-        Write-Warning "Terraform Users already has Storage Blob Data Contributor role on $StorageAccount.Name"
+        Write-Warning "$($IacConfiguration.properties.landing_zone.name) Terraform Users already has Storage Blob Data Contributor role on $StorageAccount.Name"
     }
     else {
         New-AzRoleAssignment -ObjectId $TfUserGroup.Id `
@@ -196,15 +189,17 @@ process {
                 -SecretValue ((New-Guid).Guid | ConvertTo-SecureString -AsPlainText -Force)
         }
 
-        if ((Get-AzADServicePrincipal -DisplayName $SPNConfiguration.name -ErrorAction 0)) {
+        $SPN = Get-AzADServicePrincipal -DisplayName $SPNConfiguration.name -ErrorAction 0
+        if ($SPN) {
             Write-Warning "Service principal $SPNConfiguration.name already exists"
         }
         else {
             $SPN = New-AzADServicePrincipal -DisplayName $SPNConfiguration.name
             $SPN | New-AzADSpCredential -StartDate (Get-Date).Date -EndDate (Get-Date).Date.AddMonths(2)
         }
+        
         if((Get-AzADGroupMember -GroupObjectId $TfSpnGroup.Id -ErrorAction 0 | ?{$_.Id -eq $SPN.Id})) {
-            Write-Warning "Service principal $SPNConfiguration.name already exists in Terraform Service Principals group"
+            Write-Warning "Service principal $SPNConfiguration.name already exists in $($IacConfiguration.properties.landing_zone.name) Terraform Service Principals group"
         }
         else {
             Add-AzADGroupMember -TargetGroupObjectId $TfSpnGroup.Id -MemberObjectId $SPN.Id

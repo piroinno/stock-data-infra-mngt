@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: runneragent-deployment
+  namespace: github-runners
+  labels:
+    app: github-runners
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: github-runners
+  template:
+    metadata:
+      labels:
+        app: github-runners
+    spec:
+      containers:
+        - name: githubrunnerspool
+          image: psxycrsharedacrstockdatamgnt.azurecr.io/environments/application/api:dev
+          env:
+            - name: ORGANISATION
+              valueFrom:
+                secretKeyRef:
+                  name: azdo
+                  key: github-runners-org
+            - name: PAT
+              valueFrom:
+                secretKeyRef:
+                  name: azdo
+                  key: github-runners-pat
+            - name: REPOSITORY
+              valueFrom:
+                secretKeyRef:
+                  name: azdo
+                  key: github-runners-repo
+          volumeMounts:
+            - mountPath: /var/run/docker.sock
+              name: docker-volume
+      volumes:
+        - name: docker-volume
+          hostPath:
+            path: /var/run/docker.sock
