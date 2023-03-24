@@ -1,31 +1,34 @@
-variable "remote_states" {
+variable "postgresql_servers" {
+  default = {}
+}
+variable "stock_data" {
+  default = {}
+}
+variable "storage_accounts" {
+  default = {}
+}
+variable "azuread_groups" {
+  default = {}
+}
+variable "role_mapping" {
+  default = {}
+}
+variable "aks_clusters" {
+  default = {}
+}
+variable "remote_sharedcontainerregistries" {
   default = {}
 }
 variable "remote_networks" {
   default = {}
 }
-variable "public_ip_addresses" {
-  default = {}
-}
-variable "azurerm_firewalls" {
-  default = {}
-}
-variable "virtual_machines" {
-  default = {}
-}
-variable "resource_groups" {
-  default = {}
-}
-variable "vnets" {
-  default = {}
-}
-variable "vnet_peerings" {
-  default = {}
-}
-variable "network_security_group_definition" {
+variable "remote_states" {
   default = {}
 }
 variable "keyvaults" {
+  default = {}
+}
+variable "resource_groups" {
   default = {}
 }
 variable "global_settings" {
@@ -36,11 +39,6 @@ variable "subscription_id" {
   default = null
 }
 variable "tenant_id" {
-  type    = string
-  default = null
-}
-
-variable "environment" {
   type    = string
   default = null
 }

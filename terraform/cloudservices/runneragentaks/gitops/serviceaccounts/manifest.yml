@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: runneragent-service
+  namespace: runneragent
+  annotations:
+    azure.workload.identity/client-id: d32c56d3-c158-43a8-b600-72384cba3b88
+  labels:
+    azure.workload.identity/use: "true"
+automountServiceAccountToken: true
+---
+# apiVersion: v1
+# kind: ServiceAccount
+# metadata:
+#   name: keda-operator
+#   namespace: keda-system
+#   annotations:
+#     azure.workload.identity/client-id: d32c56d3-c158-43a8-b600-72384cba3b88
+#   labels:
+#     azure.workload.identity/use: "true"
+# automountServiceAccountToken: true
+# ---
