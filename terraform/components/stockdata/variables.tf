@@ -1,3 +1,6 @@
+variable "postgresql_servers" {
+  default = {}
+}
 variable "stock_data" {
   default = {}
 }

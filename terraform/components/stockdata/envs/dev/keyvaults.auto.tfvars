@@ -55,6 +55,34 @@ keyvaults = {
       }
     }
   }
+  sd-postgres = {
+    name                      = "sd-postgres-kv"
+    resource_group_key        = "postgresql_com_stock_data_dev"
+    sku_name                  = "standard"
+    enable_rbac_authorization = true
+    creation_policies = {
+      logged_in_user = {
+        certificate_permissions = ["Get", "List", "Update", "Create", "Import", "Delete", "Purge", "Recover", "Getissuers", "Setissuers", "Listissuers", "Deleteissuers", "Manageissuers", "Restore", "Managecontacts"]
+        secret_permissions      = ["Set", "Get", "List", "Delete", "Purge"]
+      }
+    }
+    private_endpoints = {
+      kv_git_private_endpoint = {
+        name               = "sd-postgres-kv-pe"
+        resource_group_key = "postgresql_com_stock_data_dev"
+
+        vnet_key   = "cs_stock_data_dev"
+        subnet_key = "private_endpoints"
+        lz_key     = "cloudservices"
+
+        private_service_connection = {
+          name                 = "com-sd-postgres-kv-psc"
+          is_manual_connection = false
+          subresource_names    = ["vault"]
+        }
+      }
+    }
+  }
 }
 
 # resource "azurerm_role_assignment" "ra_git_pe_role_assignment" {

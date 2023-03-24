@@ -32,6 +32,10 @@ resource_groups = {
     name   = "sd-ingestor"
     region = "primary"
   }
+  postgresql_com_stock_data_dev = {
+    name   = "postgresql-com-sd-dev-rg"
+    region = "primary"
+  }
 }
 
 azuread_groups = {
