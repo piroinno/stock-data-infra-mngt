@@ -39,6 +39,7 @@ postgresql_servers = {
         name               = "pg-com-sd-dev-pe"
         vnet_key           = "cs_stock_data_dev"
         subnet_key         = "private_endpoints"
+        lz_key             = "cloudservices"
         resource_group_key = "postgresql_com_stock_data_dev"
 
         private_service_connection = {

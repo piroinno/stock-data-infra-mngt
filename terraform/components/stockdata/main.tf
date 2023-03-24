@@ -2,12 +2,13 @@ module "caf" {
   source  = "aztfmod/caf/azurerm"
   version = "~>5.6.6"
 
-  global_settings    = var.global_settings
-  resource_groups    = var.resource_groups
-  keyvaults          = var.keyvaults
-  storage_accounts   = var.storage_accounts
-  postgresql_servers = var.postgresql_servers
-
+  global_settings  = var.global_settings
+  resource_groups  = var.resource_groups
+  keyvaults        = var.keyvaults
+  storage_accounts = var.storage_accounts
+  database = {
+    postgresql_servers = var.postgresql_servers
+  }
   compute = {
     aks_clusters = var.aks_clusters
   }
