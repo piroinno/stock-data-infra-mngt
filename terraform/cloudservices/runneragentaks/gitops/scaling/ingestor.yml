@@ -1,0 +1,102 @@
+apiVersion: keda.sh/v1alpha1
+kind: TriggerAuthentication
+metadata:
+  name: github-trigger-auth-ingestor
+  namespace: runneragent
+spec:
+  secretTargetRef:
+    - parameter: personalAccessToken
+      name: github-auth
+      key: PAT
+---
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: github-runner-scaledobject-ingestor
+  namespace: runneragent
+spec:
+  scaleTargetRef:
+    name: runneragent-deployment-ingestor
+  minReplicaCount: 1
+  maxReplicaCount: 5
+  triggers:
+    - type: github-runner
+      metadata:
+        githubAPIURL: "https://api.github.com"
+        owner: "kedacore"
+        runnerScope: "repo"
+        repos: "ingestor"
+        targetWorkflowQueueLength: "1"
+      authenticationRef:
+        name: github-trigger-auth-ingestor
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: runneragent-deployment-ingestor
+  namespace: runneragent
+  labels:
+    app: runneragent-ingestor
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: runneragent-ingestor
+  template:
+    metadata:
+      labels:
+        app: runneragent-ingestor
+    spec:
+      serviceAccountName: runneragent-service
+      containers:
+        - name: runneragent-ingestor
+          image: psxycrsharedacrstockdatamgnt.azurecr.io/cloudservices/application/runneragent:latest
+          resources:
+            requests:
+              memory: "1024M"
+              cpu: "0.2"
+            limits:
+              memory: "2048M"
+              cpu: "1"
+          imagePullPolicy: Always
+          env:
+            - name: PAT
+              valueFrom:
+                secretKeyRef:
+                  name: github-auth
+                  key: PAT
+            - name: ORGANISATION
+              valueFrom:
+                secretKeyRef:
+                  name: github-auth
+                  key: ORGANISATION
+            - name: REPOSITORY
+              valueFrom:
+                secretKeyRef:
+                  name: github-auth
+                  key: INGESTOR_REPOSITORY
+          volumeMounts:
+            - name: kv-secret-store
+              mountPath: "/mnt/github-auth"
+              readOnly: true
+      tolerations:
+        - key: "kubernetes.azure.com/scalesetpriority"
+          operator: "Equal"
+          value: "spot"
+          effect: "NoSchedule"
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: "kubernetes.azure.com/scalesetpriority"
+                    operator: In
+                    values:
+                      - "spot"
+      volumes:
+        - name: kv-secret-store
+          csi:
+            driver: secrets-store.csi.k8s.io
+            readOnly: true
+            volumeAttributes:
+              secretProviderClass: "azure-sync"

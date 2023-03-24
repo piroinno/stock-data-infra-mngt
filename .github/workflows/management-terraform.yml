@@ -1,0 +1,89 @@
+name: Build and Deploy Management Landing Zone Resources
+run-name: ${{ github.event.repository.updated_at}}_${{ github.run_number }}_${{ github.ref }}
+on:
+  workflow_dispatch:
+    branches:
+      - '**'
+      # - dev
+      # - main
+  push:
+    branches:
+      - '**'
+  pull_request:
+    branches:
+      - dev
+      - main
+env:
+  ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+  ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+  ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+  ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+  TF_PLAN_FILE: tfplan
+  TF_LANDING_ZONE: 'management'
+  TF_LANDING_ZONE_ROOT_PATH: ${{ github.workspace }}/terraform/management
+  TF_CONFIGURATIONS: 'network'
+  TF_AUTO_WORKING_FOLDER: "./"
+  TF_AUTO_WORKING_PATH: ${{ github.workspace }}/terraform
+  ENVIRONMENT: mgnt
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - id: set-matrix
+        shell: pwsh
+        run: |
+          $matrix = @()
+          $configurations = "$($env:TF_CONFIGURATIONS)" -split ','
+          foreach($configuration in $configurations){
+            $matrix += "{`"configuration`":`"$configuration`"}"
+          }
+          Write-Host("::set-output name=matrix::{`"include`":[$($matrix -join ',')]}")
+          
+  build:
+    if: ${{ github.event_name == 'pull_request' || github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
+    runs-on: ubuntu-latest
+    needs: prepare
+    strategy:
+      matrix: ${{ fromJSON(needs.prepare.outputs.matrix) }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build Terraform Configuration (Plan)
+        uses: piroinno/stock-data-infra-tf-automation/build/@init
+        with:
+          configurationfolder: ${{ matrix.configuration }}
+          terraformconfigplanfile: ${{ env.TF_PLAN_FILE }}_${{ matrix.configuration }}
+          terraformphase: "plan"
+          automatedrun: "true"
+
+  test:
+    runs-on: ubuntu-latest
+    needs: [prepare, build]
+    strategy:
+      matrix: ${{ fromJSON(needs.prepare.outputs.matrix) }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Test Terraform Configuration (Plan)
+        uses: piroinno/stock-data-infra-tf-automation/test/@init
+        with:
+          configurationfolder: ${{ matrix.configuration }}
+          terraformconfigplanfile: ${{ env.TF_PLAN_FILE }}_${{ matrix.configuration }}
+          baselinefile: ".checkov.baseline"
+
+  deploy:
+    if: ${{ github.ref == 'refs/heads/main' || github.ref == 'refs/heads/uat' || github.ref == 'refs/heads/dev' }}
+    runs-on: ubuntu-latest
+    needs: [prepare,build,test]
+    strategy:
+      matrix: ${{ fromJSON(needs.prepare.outputs.matrix) }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Deploy Terraform  (Apply)
+        uses: piroinno/stock-data-infra-tf-automation/deploy@init
+        with:
+          configurationfolder: ${{ matrix.configuration }}
+          terraformconfigplanfile: ${{ env.TF_PLAN_FILE }}_${{ matrix.configuration }}
+          terraformphase: "apply"
+          automatedrun: "true"
