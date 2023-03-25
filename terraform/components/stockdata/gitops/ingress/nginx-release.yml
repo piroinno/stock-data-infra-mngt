@@ -2,16 +2,16 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: nginx
+  name: nginx-ingress-controller
   namespace: flux-system
 spec:
   chart:
     spec:
-      chart: nginx
+      chart: nginx-ingress-controller
       reconcileStrategy: ChartVersion
       sourceRef:
         kind: HelmRepository
-        name: nginx
+        name: nginx-ingress-controller
   install:
     createNamespace: true
   interval: 1m0s
