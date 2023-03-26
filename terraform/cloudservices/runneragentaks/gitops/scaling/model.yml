@@ -87,6 +87,10 @@ spec:
               readOnly: true
             - mountPath: /certs/client
               name: dind-certs
+          readinessProbe:
+            periodSeconds: 1
+            exec:
+              command: ["ls", "/certs/client/ca.pem"]
       sidecars:
         - name: dind
           image: 23.0.1-dind
