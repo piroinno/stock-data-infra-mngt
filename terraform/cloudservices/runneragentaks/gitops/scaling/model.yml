@@ -102,9 +102,6 @@ spec:
             periodSeconds: 1
             exec:
               command: ["ls", "/certs/client/ca.pem"]
-      volumes:
-        - name: dind-certs
-          emptyDir: {}
       tolerations:
         - key: "kubernetes.azure.com/scalesetpriority"
           operator: "Equal"
@@ -120,6 +117,8 @@ spec:
                     values:
                       - "spot"
       volumes:
+        - name: dind-certs
+          emptyDir: {}
         - name: kv-secret-store
           csi:
             driver: secrets-store.csi.k8s.io
