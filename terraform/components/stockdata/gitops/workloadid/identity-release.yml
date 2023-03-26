@@ -10,7 +10,7 @@ spec:
       reconcileStrategy: ChartVersion
       sourceRef:
         kind: HelmRepository
-        name: azure-workload
+        name: workload-identity
   install:
     createNamespace: true
   interval: 1m0s
