@@ -6,7 +6,7 @@ metadata:
 spec:
   chart:
     spec:
-      chart: workload-identity
+      chart: workload-identity-webhook
       reconcileStrategy: ChartVersion
       sourceRef:
         kind: HelmRepository
@@ -14,6 +14,6 @@ spec:
   install:
     createNamespace: true
   interval: 1m0s
-  targetNamespace: azure-workload-identity-system
+  targetNamespace: workload-identity-system
   values:
     azureTenantID: 859e9d09-9fe3-4451-9029-35d7fb1f2e59
