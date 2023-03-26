@@ -71,19 +71,20 @@ vnet_peerings = {
   #   use_remote_gateways          = false
   # }
 
-  # hub_mgnt_TO_hub_stock_data_prd = {
-  #   name = "hub_mgnt_TO_hub_stock_data_prd"
-  #   from = {
-  #     vnet_key = "hub_mgnt"
-  #   }
-  #   to = {
-  #     vnet_key = "hub_stock_data_prd"
-  #   }
-  #   allow_virtual_network_access = true
-  #   allow_forwarded_traffic      = false
-  #   allow_gateway_transit        = false
-  #   use_remote_gateways          = false
-  # }
+  hub_mgnt_TO_hub_stock_data_prd = {
+    name = "hub_mgnt_TO_hub_stock_data_prd"
+    from = {
+      vnet_key = "hub_mgnt"
+    }
+    to = {
+      vnet_key = "cs_stock_data_prd"
+      lz_key   = "cloudservices"
+    }
+    allow_virtual_network_access = true
+    allow_forwarded_traffic      = false
+    allow_gateway_transit        = false
+    use_remote_gateways          = false
+  }
 
   # hub_stock_data_prd_TO_hub_mgnt = {
   #   name = "hub_stock_data_prd_TO_hub_mgnt"

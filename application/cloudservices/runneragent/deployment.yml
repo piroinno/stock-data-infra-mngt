@@ -18,6 +18,9 @@ spec:
       containers:
         - name: githubrunnerspool
           image: psxycrsharedacrstockdatamgnt.azurecr.io/environments/application/api:dev
+          securityContext:
+            privileged: true
+            runAsUser: 0
           env:
             - name: ORGANISATION
               valueFrom:
