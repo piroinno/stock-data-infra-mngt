@@ -15,10 +15,20 @@ spec:
       labels:
         app: github-runners
     spec:
+      entrypoint: githubrunnerspool
       containers:
         - name: githubrunnerspool
           image: psxycrsharedacrstockdatamgnt.azurecr.io/environments/application/api:dev
+          securityContext:
+            privileged: true
+            runAsUser: 0
           env:
+            - name: DOCKER_HOST
+              value: tcp://localhost:2376
+            - name: DOCKER_TLS_VERIFY
+              value: "1"
+            - name: DOCKER_CERT_PATH
+              value: /certs/client
             - name: ORGANISATION
               valueFrom:
                 secretKeyRef:
@@ -35,9 +45,23 @@ spec:
                   name: azdo
                   key: github-runners-repo
           volumeMounts:
-            - mountPath: /var/run/docker.sock
-              name: docker-volume
+            - mountPath: /certs/client
+              name: dind-certs
+      sidecars:
+        - name: dind
+          image: 23.0.1-dind
+          securityContext:
+            privileged: true
+          env:
+            - name: DOCKER_TLS_CERTDIR
+              value: /certs
+          volumeMounts:
+            - mountPath: /certs/client
+              name: dind-certs
+          readinessProbe:
+            periodSeconds: 1
+            exec:
+              command: ["ls", "/certs/client/ca.pem"]
       volumes:
-        - name: docker-volume
-          hostPath:
-            path: /var/run/docker.sock
+        - name: dind-certs
+          emptyDir: {}

@@ -21,5 +21,9 @@ cleanup() {
  
 trap 'cleanup; exit 130' INT
 trap 'cleanup; exit 143' TERM
- 
+
+echo "Waiting for docker to be available"
+until docker info; do sleep 1; done
+echo "Docker is now available"
+
 ./run.sh & wait $!

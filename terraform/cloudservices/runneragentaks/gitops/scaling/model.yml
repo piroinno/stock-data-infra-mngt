@@ -38,7 +38,7 @@ metadata:
   labels:
     app: runneragent
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: runneragent
@@ -60,6 +60,12 @@ spec:
               cpu: "1"
           imagePullPolicy: Always
           env:
+            - name: DOCKER_HOST
+              value: tcp://localhost:2376
+            - name: DOCKER_TLS_VERIFY
+              value: "1"
+            - name: DOCKER_CERT_PATH
+              value: /certs/client
             - name: PAT
               valueFrom:
                 secretKeyRef:
@@ -79,6 +85,27 @@ spec:
             - name: kv-secret-store
               mountPath: "/mnt/github-auth"
               readOnly: true
+            - mountPath: /certs/client
+              name: dind-certs
+          readinessProbe:
+            periodSeconds: 1
+            exec:
+              command: ["ls", "/certs/client/ca.pem"]
+      sidecars:
+        - name: dind
+          image: 23.0.1-dind
+          securityContext:
+            privileged: true
+          env:
+            - name: DOCKER_TLS_CERTDIR
+              value: /certs
+          volumeMounts:
+            - mountPath: /certs/client
+              name: dind-certs
+          readinessProbe:
+            periodSeconds: 1
+            exec:
+              command: ["ls", "/certs/client/ca.pem"]
       tolerations:
         - key: "kubernetes.azure.com/scalesetpriority"
           operator: "Equal"
@@ -94,6 +121,8 @@ spec:
                     values:
                       - "spot"
       volumes:
+        - name: dind-certs
+          emptyDir: {}
         - name: kv-secret-store
           csi:
             driver: secrets-store.csi.k8s.io
